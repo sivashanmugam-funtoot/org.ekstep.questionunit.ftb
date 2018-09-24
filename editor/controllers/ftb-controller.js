@@ -31,7 +31,7 @@ angular.module('ftbApp', ['org.ekstep.question']).controller('ftbQuestionFormCon
     media: []
   };
   questionInput = CKEDITOR.replace('ftbQuestion', { // eslint-disable-line no-undef
-    customConfig: ecEditor.resolvePluginResource('org.ekstep.questionunit', '1.0', "editor/ckeditor-config.js"),
+    customConfig: ecEditor.resolvePluginResource('org.ekstep.questionunit', '1.1', "editor/ckeditor-config.js"),
     skin: 'moono-lisa,' + CKEDITOR.basePath + "skins/moono-lisa/", // eslint-disable-line no-undef
     contentsCss: CKEDITOR.basePath + "contents.css" // eslint-disable-line no-undef
   });
@@ -122,8 +122,15 @@ angular.module('ftbApp', ['org.ekstep.question']).controller('ftbQuestionFormCon
   $scope.createAnswerArray = function () {
     var regexForAns = /(?:^|)\[\[(.*?)(?:\]\]|$)/g;
     $scope.ftbFormData.answer = $scope.splitAnswer($scope.ftbFormData.question.text, regexForAns, 1).map(function (a) {
+      a = $scope.extractHTML(a);
       return a.toLowerCase().trim();
     });
+  }
+
+  $scope.extractHTML = function(htmlElement) {
+    var divElement= document.createElement('div');
+    divElement.innerHTML= htmlElement;
+    return divElement.textContent || divElement.innerText;
   }
   /**
    * split answer into question text
