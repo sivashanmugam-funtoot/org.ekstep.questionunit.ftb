@@ -105,6 +105,7 @@ org.ekstep.questionunitFTB.RendererPlugin = org.ekstep.contentrenderer.questionU
         val: answerArray
       },
       score: questionScore,
+      max_score: this._question.config.max_score,
       values: telemetryAnsArr,
       noOfCorrectAns: correctAnswersCount,
       totalAns: this._question.data.answer.length
@@ -115,11 +116,8 @@ org.ekstep.questionunitFTB.RendererPlugin = org.ekstep.contentrenderer.questionU
     if (_.isFunction(callback)) {
       callback(result);
     }
-
-    this.saveQuestionState(result.state);
-
+    
     QSTelemetryLogger.logEvent(QSTelemetryLogger.EVENT_TYPES.RESPONSE, { "type": "INPUT", "values": telemetryAnsArr }); // eslint-disable-line no-undef
-    QSTelemetryLogger.logEvent(QSTelemetryLogger.EVENT_TYPES.ASSESSEND, result); // eslint-disable-line no-undef
   }
 });
 //# sourceURL=questionunitFtbRendererPlugin.js
